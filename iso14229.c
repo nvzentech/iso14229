@@ -1174,24 +1174,27 @@ static UDSErr_t Handle_0x19_ReadDTCInformation(UDSServer_t *srv, UDSReq_t *r) {
     default:
         return NegativeResponse(r, UDS_NRC_SubFunctionNotSupported);
     }
-
+    printf("Handle_0x19_DTCInformation: type: 0x%02X\n", type);
     ret = EmitEvent(srv, UDS_EVT_ReadDTCInformation, &args);
 
     if (UDS_PositiveResponse != ret) {
+        printf("Handle_0x19_DTCInformation: exit negative response \n", r->send_len);
         return NegativeResponse(r, ret);
     }
-
+    printf("Handle_0x19_DTCInformation: exit positive response \n", r->send_len);
     if (r->send_len < UDS_0X19_RESP_BASE_LEN) {
         goto respond_to_0x19_malformed_response;
     }
-
+    printf("size checked: %zu\n", r->send_len);
     /* subfunc specific reply len checks */
     switch (type) {
     case 0x01: /* reportNumberOfDTCByStatusMask */
     case 0x07: /* reportNumberOfDTCBySeverityMaskRecord */
         if (r->send_len != UDS_0X19_RESP_BASE_LEN + 4) {
+            printf("0X01 CHECK failed due to server data not added\n");
             goto respond_to_0x19_malformed_response;
         }
+        printf("0X07 CHECK\n");
         break;
     case 0x02: /* reportDTCByStatusMask */
     case 0x0A: /* reportSupportedDTC */
@@ -1280,10 +1283,11 @@ static UDSErr_t Handle_0x19_ReadDTCInformation(UDSServer_t *srv, UDSReq_t *r) {
         UDS_LOGW(__FILE__, "RDTCI subFunc 0x%02X is not supported.\n", type);
         return NegativeResponse(r, UDS_NRC_SubFunctionNotSupported);
     }
-
+    printf("Handle_0x19_DTCInformation: exit positive response \n", r->send_len);
     return UDS_PositiveResponse;
 respond_to_0x19_malformed_response:
     UDS_LOGE(__FILE__, "RDTCI subFunc 0x%02X is malformed. Length: %zu\n", type, r->send_len);
+    printf("RDTCI subFunc 0x%02X is malformed. Length: %zu\n", type, r->send_len);
     return NegativeResponse(r, UDS_NRC_GeneralReject);
 }
 
@@ -1299,7 +1303,7 @@ static UDSErr_t Handle_0x22_ReadDataByIdentifier(UDSServer_t *srv, UDSReq_t *r) 
     }
 
     numDIDs = (uint8_t)(r->recv_len / sizeof(uint16_t));
-
+    printf("Handle_0x22_ReadDataByIdentifier: numDIDs: %d\n", numDIDs);
     if (0 == numDIDs) {
         return NegativeResponse(r, UDS_NRC_IncorrectMessageLengthOrInvalidFormat);
     }
@@ -1309,6 +1313,7 @@ static UDSErr_t Handle_0x22_ReadDataByIdentifier(UDSServer_t *srv, UDSReq_t *r) 
         dataId = (uint16_t)((uint16_t)(r->recv_buf[idx] << 8) | (uint16_t)r->recv_buf[idx + 1]);
 
         if (r->send_len + 3 > sizeof(r->send_buf)) {
+            printf("Handle_0x22_ReadDataByIdentifier: response too long\n");
             return NegativeResponse(r, UDS_NRC_ResponseTooLong);
         }
         uint8_t *copylocation = r->send_buf + r->send_len;
@@ -1325,10 +1330,12 @@ static UDSErr_t Handle_0x22_ReadDataByIdentifier(UDSServer_t *srv, UDSReq_t *r) 
         ret = EmitEvent(srv, UDS_EVT_ReadDataByIdent, &args);
         if (ret == UDS_PositiveResponse && send_len_before == r->send_len) {
             UDS_LOGE(__FILE__, "RDBI response positive but no data sent\n");
+            printf("RDBI response positive but no data sent\n");
             return NegativeResponse(r, UDS_NRC_GeneralReject);
         }
 
         if (UDS_PositiveResponse != ret) {
+            printf("RDBI response negative: 0x%02X\n", ret);
             return NegativeResponse(r, ret);
         }
     }

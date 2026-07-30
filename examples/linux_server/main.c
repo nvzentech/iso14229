@@ -22,10 +22,116 @@ void sigint_handler(int signum) {
 }
 
 static UDSErr_t fn(UDSServer_t *srv, UDSEvent_t ev, void *arg) {
-    switch (ev) {
-    default:
-        printf("Unhandled event: %d\n", ev);
+    printf("event: %d\n", ev);
+    if(ev >= UDS_EVT_MAX){
+	    printf("Unhandled event: %d\n", ev);
         return UDS_NRC_ServiceNotSupported;
+    }
+    UDSDiagSessCtrlArgs_t *p = (UDSDiagSessCtrlArgs_t *)arg;
+    switch (ev)
+    {
+        case UDS_EVT_DiagSessCtrl:
+            printf("DiagSessCtrl: 0x%02X\n", p->type);
+            if (p->type >= 0x01 && p->type <= 0x04){
+                return UDS_PositiveResponse;
+            }
+            else{
+                return UDS_NRC_SubFunctionNotSupported;
+            }
+        case UDS_EVT_EcuReset:
+            printf("EcuReset\n");
+            return UDS_PositiveResponse;
+
+        case UDS_EVT_ClearDiagnosticInfo:
+            printf("ClearDiagnosticInfo\n");
+            return UDS_PositiveResponse;
+
+        case UDS_EVT_ReadDTCInformation:
+            printf("ReadDTCInformation\n");
+            return UDS_PositiveResponse;
+
+        case UDS_EVT_ReadDataByIdent:
+            printf("ReadDataByIdent\n");
+            return UDS_PositiveResponse;
+
+        case UDS_EVT_ReadMemByAddr:
+            printf("ReadMemByAddr\n");
+            return UDS_PositiveResponse;
+
+        case UDS_EVT_CommCtrl:
+            printf("CommCtrl\n");
+            return UDS_PositiveResponse;
+
+        case UDS_EVT_SecAccessRequestSeed:
+            printf("SecAccessRequestSeed\n");
+            return UDS_PositiveResponse;
+
+        case UDS_EVT_SecAccessValidateKey:
+            printf("SecAccessValidateKey\n");
+            return UDS_PositiveResponse;
+
+        case UDS_EVT_WriteDataByIdent:
+            printf("WriteDataByIdent\n");
+            return UDS_PositiveResponse;
+
+        case UDS_EVT_WriteMemByAddr:
+            printf("WriteMemByAddr\n");
+            return UDS_PositiveResponse;
+
+        case UDS_EVT_DynamicDefineDataId:
+            printf("DynamicDefineDataId\n");
+            return UDS_PositiveResponse;
+
+        case UDS_EVT_IOControl:
+            printf("IOControl\n");
+            return UDS_PositiveResponse;
+
+        case UDS_EVT_RoutineCtrl:
+            printf("RoutineCtrl\n");
+            return UDS_PositiveResponse;
+
+        case UDS_EVT_RequestDownload:
+            printf("RequestDownload\n");
+            return UDS_PositiveResponse;
+
+        case UDS_EVT_RequestUpload:
+            printf("RequestUpload\n");
+            return UDS_PositiveResponse;
+
+        case UDS_EVT_TransferData:
+            printf("TransferData\n");
+            return UDS_PositiveResponse;
+
+        case UDS_EVT_RequestTransferExit:
+            printf("RequestTransferExit\n");
+            return UDS_PositiveResponse;
+
+        case UDS_EVT_SessionTimeout:
+            printf("SessionTimeout\n");
+            return UDS_PositiveResponse;
+
+        case UDS_EVT_DoScheduledReset:
+            printf("DoScheduledReset\n");
+            return UDS_PositiveResponse;
+
+        case UDS_EVT_RequestFileTransfer:
+            printf("RequestFileTransfer\n");
+            return UDS_PositiveResponse;
+
+        case UDS_EVT_ControlDTCSetting:
+            printf("ControlDTCSetting\n");
+            return UDS_PositiveResponse;
+
+        case UDS_EVT_LinkControl:
+            printf("LinkControl\n");
+            return UDS_PositiveResponse;
+
+        case UDS_EVT_Custom:
+            printf("Custom\n");
+            return UDS_PositiveResponse;        
+	default:
+            printf("Unhandled event: %d\n", ev);
+            return UDS_NRC_ServiceNotSupported;
     }
 }
 
@@ -36,7 +142,7 @@ int main(int ac, char **av) {
     sigaction(SIGINT, &sa, NULL);
 
     // 1. Initialize a transport
-    if (UDSTpIsoTpSockInitServer(&tp, "vcan0", 0x7E0, 0x7E8, 0x7DF)) {
+    if (UDSTpIsoTpSockInitServer(&tp, "can0", 0x7E0, 0x7E8, 0x7DF)) {
         fprintf(stderr, "UDSTpIsoTpSockInitServer failed\n");
         exit(-1);
     }
