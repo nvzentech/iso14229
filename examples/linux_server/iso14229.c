@@ -2370,6 +2370,12 @@ static UDSErr_t evaluateServiceResponse(UDSServer_t *srv, UDSReq_t *r) {
     /* CASE Service_without_sub-function */
     /* test if service without sub-function is supported */
     case kSID_READ_DATA_BY_IDENTIFIER:
+        {
+            printf("evaluate service response : kSID_READ_DATA_BY_IDENTIFIER\n");
+            UDS_ASSERT(service);
+            response = service(srv, r);
+            break;
+        }
     case kSID_READ_MEMORY_BY_ADDRESS:
     case kSID_WRITE_DATA_BY_IDENTIFIER:
     case kSID_REQUEST_DOWNLOAD:
@@ -2457,6 +2463,19 @@ UDSErr_t UDSServerInit(UDSServer_t *srv) {
     return UDS_OK;
 }
 
+static void print_ts(const char *tag) {
+    struct timespec ts;
+    struct tm tm_info;
+    char buf[16];
+
+    clock_gettime(CLOCK_REALTIME, &ts);
+    localtime_r(&ts.tv_sec, &tm_info);
+    strftime(buf, sizeof(buf), "%H:%M:%S", &tm_info);
+
+    printf("[%s.%06ld] %s\n", buf, ts.tv_nsec / 1000, tag);
+}
+
+
 void UDSServerPoll(UDSServer_t *srv) {
     // UDS-1-2013 Figure 38: Session Timeout (S3)
     if (UDS_LEV_DS_DS != srv->sessionType &&
@@ -2496,6 +2515,7 @@ void UDSServerPoll(UDSServer_t *srv) {
         if (UDSTimeAfter(UDSMillis(), srv->p2_timer)) {
             ssize_t ret = 0;
             if (r->send_len) {
+		        print_ts("TX:\n");
                 ret = UDSTpSend(srv->tp, r->send_buf, r->send_len, NULL);
             }
 
@@ -2530,6 +2550,7 @@ void UDSServerPoll(UDSServer_t *srv) {
         r->recv_len = (size_t)len;
 
         if (r->recv_len > 0) {
+            print_ts("RX:\n");
             UDSErr_t response = evaluateServiceResponse(srv, r);
             srv->requestInProgress = true;
             if (UDS_NRC_RequestCorrectlyReceived_ResponsePending == response) {
