@@ -1,0 +1,196 @@
+{
+    "DIDs": [
+        {
+            "did": "0xF180",
+            "name": "Boot Software Identification",
+            "type": "string",
+            "value": "BOOT_1.0.0"
+        },
+        {
+            "did": "0xF181",
+            "name": "Application Software Identification",
+            "type": "string",
+            "value": "APP_1.2.3"
+        },
+        {
+            "did": "0xF182",
+            "name": "Application Data Identification",
+            "type": "string",
+            "value": "DATA_1.0.0"
+        },
+        {
+            "did": "0xF183",
+            "name": "Boot Software Fingerprint",
+            "type": "string",
+            "value": "BLFP_20260905"
+        },
+        {
+            "did": "0xF184",
+            "name": "Application Software Fingerprint",
+            "type": "string",
+            "value": "SWFP_20260905"
+        },
+        {
+            "did": "0xF185",
+            "name": "Application Data Fingerprint",
+            "type": "string",
+            "value": "DAFP_20260905"
+        },
+        {
+            "did": "0xF186",
+            "name": "Active Diagnostic Session",
+            "type": "uint8",
+            "value": "0x03"
+        },
+        {
+            "did": "0xF187",
+            "name": "Vehicle Manufacturer Spare Part Number",
+            "type": "string",
+            "value": "SPARE-ECU-001"
+        },
+        {
+            "did": "0xF188",
+            "name": "Vehicle Manufacturer ECU Software Number",
+            "type": "string",
+            "value": "ECU-SW-001"
+        },
+        {
+            "did": "0xF189",
+            "name": "Vehicle Manufacturer ECU Software Version",
+            "type": "string",
+            "value": "V1.2.3"
+        },
+        {
+            "did": "0xF18A",
+            "name": "System Supplier Identifier",
+            "type": "string",
+            "value": "SUPPLIER-001"
+        },
+        {
+            "did": "0xF18B",
+            "name": "ECU Manufacturing Date",
+            "type": "string",
+            "value": "20260905"
+        },
+        {
+            "did": "0xF18C",
+            "name": "Serial Number",
+            "type": "string",
+            "value": "SN12345"
+        },
+        {
+            "did": "0xF18D",
+            "name": "Supported Functional Units",
+            "type": "string",
+            "value": "UDS-OBD-CAN"
+        },
+        {
+            "did": "0xF18E",
+            "name": "Vehicle Manufacturer Kit Assembly Part Number",
+            "type": "string",
+            "value": "KIT-ECU-001"
+        },
+        {
+            "did": "0xF18F",
+            "name": "Regulation Software Identification",
+            "type": "string",
+            "value": "REGSW-001"
+        },
+        {
+            "did": "0xF190",
+            "name": "VIN",
+            "type": "string",
+            "value": "MYVIN1234567890AB"
+        },
+        {
+            "did": "0xF191",
+            "name": "Vehicle Manufacturer ECU Hardware Number",
+            "type": "string",
+            "value": "HW-ECU-001"
+        },
+        {
+            "did": "0xF192",
+            "name": "System Supplier ECU Hardware Number",
+            "type": "string",
+            "value": "SUP-HW-001"
+        },
+        {
+            "did": "0xF193",
+            "name": "System Supplier ECU Hardware Version",
+            "type": "string",
+            "value": "HW-V1.0"
+        },
+        {
+            "did": "0xF194",
+            "name": "System Supplier ECU Software Number",
+            "type": "string",
+            "value": "SUP-SW-001"
+        },
+        {
+            "did": "0xF195",
+            "name": "System Supplier ECU Software Version",
+            "type": "string",
+            "value": "SUP-V1.2.3"
+        },
+        {
+            "did": "0xF196",
+            "name": "Exhaust Regulation or Type Approval Number",
+            "type": "string",
+            "value": "TYPE-APP-001"
+        },
+        {
+            "did": "0xF197",
+            "name": "System Name or Engine Type",
+            "type": "string",
+            "value": "TEST-ENGINE"
+        },
+        {
+            "did": "0xF198",
+            "name": "Repair Shop Code or Tester Serial Number",
+            "type": "string",
+            "value": "SHOP-001"
+        },
+        {
+            "did": "0xF199",
+            "name": "Programming Date",
+            "type": "string",
+            "value": "20260901"
+        },
+        {
+            "did": "0xF19A",
+            "name": "Calibration Repair Shop Code or Equipment Serial Number",
+            "type": "string",
+            "value": "CAL-TOOL-001"
+        },
+        {
+            "did": "0xF19B",
+            "name": "Calibration Date",
+            "type": "string",
+            "value": "20260825"
+        },
+        {
+            "did": "0xF19C",
+            "name": "Calibration Equipment Software Number",
+            "type": "string",
+            "value": "CAL-SW-1.0"
+        },
+        {
+            "did": "0xF19D",
+            "name": "ECU Installation Date",
+            "type": "string",
+            "value": "20260820"
+        },
+        {
+            "did": "0xF19E",
+            "name": "ODX File Data",
+            "type": "string",
+            "value": "ODX-TEST-001"
+        },
+        {
+            "did": "0xF19F",
+            "name": "Entity Data",
+            "type": "string",
+            "value": "ENTITY-001"
+        }
+    ]
+}

@@ -19,7 +19,7 @@ static bool done = false;
 static int sleep_ms(uint32_t tms);
 
 
-#define JSON_FILE_PATH "/home/rpi/can_uds_cloud_project/iso14229/data.json"
+#define JSON_FILE_PATH "data.json"
 
 typedef struct
 {
@@ -638,7 +638,7 @@ int main(int ac, char **av) {
     }
 
     // 1. Initialize a transport
-    if (UDSTpIsoTpSockInitServer(&tp, "can0", 0x7E0, 0x7E8, 0x7DF)) {
+    if (UDSTpIsoTpSockInitServer(&tp, "can0", 0x7E0, 0x7E8,0x7df)) {
         fprintf(stderr, "UDSTpIsoTpSockInitServer failed\n");
         exit(-1);
     }

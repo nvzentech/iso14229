@@ -3494,13 +3494,21 @@ UDSErr_t UDSTpIsoTpSockInitServer(UDSTpIsoTpSock_t *tp, const char *ifname, uint
     tp->hdl.poll = isotp_sock_tp_poll;
     tp->phys_sa = source_addr;
     tp->phys_ta = target_addr;
-    tp->func_sa = source_addr_func;
+    //tp->func_sa = source_addr_func;
 
     tp->phys_fd = LinuxSockBind(ifname, source_addr, target_addr, false);
-    tp->func_fd = LinuxSockBind(ifname, source_addr_func, 0, true);
-    if (tp->phys_fd < 0 || tp->func_fd < 0) {
-        UDS_LOGI(__FILE__, "foo\n");
-        (void)fflush(stdout);
+    //tp->func_fd = LinuxSockBind(ifname, source_addr_func, 0, true);
+
+    // if (tp->phys_fd < 0 || tp->func_fd < 0) {
+    //     UDS_LOGI(__FILE__, "foo\n");
+    //     (void)fflush(stdout);
+    //     return UDS_FAIL;
+    // }
+    tp->func_sa = 0;
+    tp->func_fd = -1;
+
+    if (tp->phys_fd < 0) {
+        UDS_LOGI(__FILE__, "Physical socket bind failed\n");
         return UDS_FAIL;
     }
     const char *tag = "server";
